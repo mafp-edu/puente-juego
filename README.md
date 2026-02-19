@@ -124,6 +124,6 @@ el-camino-del-buen-lider/
 
 ## Créditos
 
-- Concepto y diseño pedagógico: UDD
+- Concepto y diseño pedagógico: Miguel Ángel Fernández
 - Motor: [Phaser 3](https://phaser.io/)
-- Desarrollado como proyecto académico · 2026
+- Desarrollado como proyecto para bienvenida alumnos nuevos · 2026
