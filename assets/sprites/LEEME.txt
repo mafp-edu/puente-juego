@@ -1,0 +1,532 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║           GUÍA COMPLETA DE SPRITES  –  PUENTE 2026                         ║
+║      Formato del juego: 390 × 700 px (retrato)  |  Mundo: 7000 × 700 px   ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+Coloca aquí todos los archivos PNG cuando estén listos.
+Actualmente el código genera PLACEHOLDERS en BootScene.js.
+Cuando agregues un PNG real, debes actualizar BootScene.js para cargarlo
+con load.image() o load.spritesheet() en el método preload().
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ ESTILO VISUAL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Referencia: "La Casa de Papel × Terminator" – campus universitario nocturno
+
+  PALETA OBLIGATORIA
+  ┌─────────────────────┬───────────┬──────────────────────────────────────┐
+  │ Nombre              │ Hex       │ Uso                                  │
+  ├─────────────────────┼───────────┼──────────────────────────────────────┤
+  │ Azul Medianoche     │ #0D1B3E   │ Fondos, cielo nocturno               │
+  │ Azul Panel          │ #0A1428   │ Paneles HUD y diálogo                │
+  │ Azul Medio          │ #1A3060   │ Sombras, plataformas                 │
+  │ Rojo Sangre         │ #CC1A1A   │ Acentos de peligro, detalles enemigo │
+  │ Rojo Brillante      │ #FF2222   │ Highlights, vida baja                │
+  │ Dorado              │ #FFCC00   │ Monedas, bordes de hitos             │
+  │ Dorado Suave        │ #FFD700   │ Títulos, estrella del HUD            │
+  │ Blanco Azulado      │ #DDEEFF   │ Texto UI general                     │
+  │ Naranja Neón        │ #FF8800   │ Visor de Novo, warning stripes       │
+  │ Cian Eléctrico      │ #00FFFF   │ Compañero, confeti                   │
+  └─────────────────────┴───────────┴──────────────────────────────────────┘
+
+  PERSONAJES
+  • Novo (jugador)  = mono/jumpsuit rojo, casco negro, visor naranja brillante
+  • Profe-Bot (enemigo) = robot metálico oscuro, ojos rojo-Terminator,
+                          birrete académico negro con borla dorada
+  • El Profesor (NPC)   = traje oscuro, máscara de Salvador Dalí (opcional),
+                          pose autoritaria, estilo retrato de carné
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ LISTA RÁPIDA DE ARCHIVOS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ANIMADOS (spritesheets – todos los frames en horizontal, de izquierda a derecha)
+  ┌──────────────────────────┬───────────────┬──────────┬────────────────────┐
+  │ Archivo                  │ Tamaño TOTAL  │ Frames   │ Tamaño por frame   │
+  ├──────────────────────────┼───────────────┼──────────┼────────────────────┤
+  │ novo_idle.png            │  128 × 50 px  │  4       │  32 × 50 px        │
+  │ novo_walk.png            │  192 × 50 px  │  6       │  32 × 50 px        │
+  │ novo_jump.png            │   96 × 50 px  │  3       │  32 × 50 px        │
+  │ enemigo_walk.png         │  128 × 44 px  │  4       │  32 × 44 px        │
+  │ moneda.png (opcional)    │  128 × 16 px  │  8       │  16 × 16 px        │
+  └──────────────────────────┴───────────────┴──────────┴────────────────────┘
+
+  ESTÁTICOS (imágenes simples)
+  ┌──────────────────────────┬──────────────┬────────────────────────────────┐
+  │ Archivo                  │ Tamaño       │ Descripción                    │
+  ├──────────────────────────┼──────────────┼────────────────────────────────┤
+  │ profesor_portrait.png    │  120 × 160   │ Retrato NPC (YA EXISTE)        │
+  │ companero.png            │   40 × 48    │ Compañero en jaula             │
+  │ corazon.png              │   20 × 20    │ Ícono de vida HUD              │
+  │ libro.png                │   22 × 24    │ Libro pista coleccionable      │
+  │ hito.png                 │   32 × 64    │ Portal/bandera de checkpoint   │
+  │ plataforma.png           │   32 × 16    │ Plataforma estática (tileable) │
+  │ plataforma_mov.png       │   32 × 14    │ Plataforma móvil (tileable)    │
+  │ fondo1.png               │  390 × 700   │ Capa fondo: cielo con estrellas│
+  │ fondo2.png               │  800 × 700   │ Capa media: edificios          │
+  │ fondo3.png               │  600 × 700   │ Capa frente: árboles + suelo   │
+  │ confeti_oro.png          │    6 × 6     │ Partícula confeti dorado       │
+  │ confeti_rosa.png         │    6 × 6     │ Partícula confeti rosa         │
+  │ confeti_cyan.png         │    6 × 6     │ Partícula confeti cian         │
+  └──────────────────────────┴──────────────┴────────────────────────────────┘
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ SPRITESHEETS ANIMADOS  –  DETALLE POR CUADRO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ ┌─────────────────────────────────────────────────────────────────────────┐
+ │  NOVO – IDLE   »   novo_idle.png   »   128 × 50 px   (4 frames × 32)  │
+ └─────────────────────────────────────────────────────────────────────────┘
+
+  Descripción: Respiración suave. El visor parpadea levemente.
+  Velocidad recomendada en Phaser: 8 fps (repeat: -1)
+
+  ┌────────┬────────┬────────┬────────┐
+  │  F 0   │  F 1   │  F 2   │  F 3   │
+  │ 32×50  │ 32×50  │ 32×50  │ 32×50  │
+  └────────┴────────┴────────┴────────┘
+   0px      32px     64px     96px
+   ↑ origen          ↑ cada frame empieza en múltiplo de 32
+
+  F0 – Pose neutral. Casco centrado, brazos pegados al cuerpo,
+       pies levemente separados. Visor naranja apagado (tono base).
+
+  F1 – Tórax sube 1 px (inhalación). Visor un poco más brillante.
+       Los brazos se separan 1 px a cada lado.
+
+  F2 – Igual a F0 (pose neutral). Visor naranja apagado.
+       El casco gira 1-2 px a la derecha (leve).
+
+  F3 – Tórax baja 1 px (exhalación). Visor más tenue (oscuro).
+       Los brazos vuelven al centro.
+
+
+ ┌─────────────────────────────────────────────────────────────────────────┐
+ │  NOVO – WALK   »   novo_walk.png   »   192 × 50 px   (6 frames × 32)  │
+ └─────────────────────────────────────────────────────────────────────────┘
+
+  Descripción: Ciclo de caminar. Se voltea horizontalmente (flipX) para
+               la dirección izquierda; solo se necesita la versión →derecha.
+  Velocidad recomendada en Phaser: 10 fps (repeat: -1)
+  Dirección izquierda: scene.anims.play() + sprite.setFlipX(true)
+
+  ┌────────┬────────┬────────┬────────┬────────┬────────┐
+  │  F 0   │  F 1   │  F 2   │  F 3   │  F 4   │  F 5   │
+  │ 32×50  │ 32×50  │ 32×50  │ 32×50  │ 32×50  │ 32×50  │
+  └────────┴────────┴────────┴────────┴────────┴────────┘
+   0px      32px     64px     96px    128px    160px
+
+  F0 – CONTACTO DERECHO: pierna derecha extendida adelante (talón apoya),
+       pierna izquierda atrás. Brazo izquierdo adelante, derecho atrás.
+       Cuerpo ligeramente inclinado hacia adelante.
+
+  F1 – BAJANDO: cuerpo desciende al centro. Piernas convergiendo.
+       Peso transicionando al pie derecho.
+
+  F2 – PASO DERECHO: pie derecho plano en el suelo, rodilla alineada.
+       Pierna izquierda empieza a pasar adelante (levantando).
+       Brazos cruzando al centro.
+
+  F3 – CONTACTO IZQUIERDO: pierna izquierda extendida adelante (talón),
+       pierna derecha atrás. Brazo derecho adelante, izquierdo atrás.
+       (espejo funcional de F0)
+
+  F4 – BAJANDO: espejo de F1. Peso transicionando al pie izquierdo.
+
+  F5 – PASO IZQUIERDO: pie izquierdo plano, rodilla alineada.
+       Pierna derecha levantándose para pasar.
+       (espejo funcional de F2)
+
+
+ ┌─────────────────────────────────────────────────────────────────────────┐
+ │  NOVO – JUMP   »   novo_jump.png   »    96 × 50 px   (3 frames × 32)  │
+ └─────────────────────────────────────────────────────────────────────────┘
+
+  Descripción: 3 fases del salto. Phaser asigna cada frame según
+               la velocidad Y del cuerpo físico.
+  Velocidad recomendada en Phaser: 6 fps (NO repeat, se congela en F1)
+
+  ┌────────┬────────┬────────┐
+  │  F 0   │  F 1   │  F 2   │
+  │ 32×50  │ 32×50  │ 32×50  │
+  └────────┴────────┴────────┘
+   0px      32px     64px
+
+  F0 – DESPEGUE: rodillas muy flexionadas (agachado antes del salto),
+       brazos hacia abajo cargando impulso. Cuerpo comprimido.
+       ► Se muestra cuando velocityY < 0 (subiendo, inicio)
+
+  F1 – CIMA / VUELO: piernas extendidas hacia abajo o levemente flexionadas,
+       brazos extendidos hacia arriba. Cuerpo en extensión máxima.
+       Visor naranja brillante (acción).
+       ► Se muestra en el punto más alto del arco (velocityY ≈ 0)
+
+  F2 – CAÍDA: piernas juntas y apuntando hacia abajo, brazos hacia los lados
+       para equilibrio. Cuerpo levemente inclinado hacia adelante.
+       Visor con tono algo más oscuro (anticipación de aterrizaje).
+       ► Se muestra cuando velocityY > 0 (bajando)
+
+
+ ┌─────────────────────────────────────────────────────────────────────────┐
+ │  PROFE-BOT – WALK  »  enemigo_walk.png  »  128×44 px  (4 frames × 32) │
+ └─────────────────────────────────────────────────────────────────────────┘
+
+  Descripción: Robot patrullando. Gira con flipX al invertir dirección.
+               El birrete y la borla se mueven suavemente.
+  Velocidad recomendada en Phaser: 8 fps (repeat: -1)
+
+  ┌────────┬────────┬────────┬────────┐
+  │  F 0   │  F 1   │  F 2   │  F 3   │
+  │ 32×44  │ 32×44  │ 32×44  │ 32×44  │
+  └────────┴────────┴────────┴────────┘
+   0px      32px     64px     96px
+
+  F0 – PASO A: pierna-pistón derecha extendida adelante,
+       pierna-pistón izquierda atrás. Brazo derecho atrás, izq adelante.
+       Birrete recto. Ojos LED rojos encendidos.
+
+  F1 – CENTRO: ambas piernas bajo el cuerpo, cuerpo a plomo.
+       Brazos a los lados. Borla del birrete basculando levemente.
+       Cuerpo baja ~1 px (rodillas levemente flexionadas).
+
+  F2 – PASO B: pierna-pistón izquierda extendida adelante,
+       pierna derecha atrás. (espejo de F0)
+       Birrete inclinado 1-2 px al lado opuesto.
+
+  F3 – CENTRO: igual a F1, espejo del balance de brazos.
+       Borla del birrete en posición contraria a F1.
+
+  DETALLES VISUALES DEL PROFE-BOT:
+  • Cuerpo: gris metálico oscuro (#2A2A3A) con bordes plateados (#8888AA)
+  • Ojos: dos puntos LED rojo brillante (#FF2222), efecto glow suave
+  • Pecho: placa rectangular oscura con símbolo de robot o engranaje dorado
+  • Birrete: negro (#111111) sobre la cabeza metálica, como si lo "llevara puesto"
+  • Borla: hilo dorado (#FFD700) colgando del lado derecho del birrete
+  • Articulaciones: cilindros de acero visibles en hombros y rodillas
+  • Hitbox efectiva en el juego: 26 × 38 px (centrada en el sprite 32×44)
+
+
+ ┌─────────────────────────────────────────────────────────────────────────┐
+ │  MONEDA  »  moneda.png  »  128 × 16 px  (8 frames × 16)  [OPCIONAL]   │
+ └─────────────────────────────────────────────────────────────────────────┘
+
+  Descripción: Chip de datos girando. Simula rotación 3D reduciendo el ancho.
+  Velocidad recomendada en Phaser: 12 fps (repeat: -1)
+  Si no se hace animada, usar una imagen estática de 16 × 16 px.
+
+  ┌──┬──┬──┬──┬──┬──┬──┬──┐
+  │F0│F1│F2│F3│F4│F5│F6│F7│   cada bloque = 16×16 px
+  └──┴──┴──┴──┴──┴──┴──┴──┘
+   0  16  32  48  64  80  96  112
+
+  F0 – Vista frontal completa (16 px ancho). Círculo dorado con detalle.
+  F1 – Girando (12 px visible, bordes comprimidos).
+  F2 – Girando (8 px visible, casi de canto).
+  F3 – Canto (2-4 px, línea vertical brillante).
+  F4 – Girando (8 px, lado reverso).
+  F5 – Girando (12 px, lado reverso parcial).
+  F6 – Vista trasera completa (detalle del reverso, más oscuro).
+  F7 – Regresando (12 px, transición de vuelta a F0).
+
+  COLOR BASE: dorado #FFCC00, borde #FF8800, reverso #AA8800
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ IMÁGENES ESTÁTICAS  –  DETALLE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ ── profesor_portrait.png  (120 × 160 px)  ★ YA EXISTE EN ESTA CARPETA ★
+    Relación de aspecto: 3:4 (vertical).
+    Usos en el juego:
+      • IntroScene: ~88 × 112 px (adaptado al panel)
+      • DialogoScene: ~72 × 92 px (junto al texto de pregunta)
+      • FinScene: 70 × 92 px (pequeño, centrado en panel de resultado)
+    El código escala automáticamente con setDisplaySize(),
+    así que la imagen a 120×160 se verá nítida en todos los tamaños.
+    Descripción visual: Retrato de "El Profesor" de medio cuerpo,
+    fondo oscuro azul medianoche, postura autoritaria.
+
+ ── companero.png  (40 × 48 px)
+    Compañero atrapado dentro de una jaula de energía cian.
+    • Silueta de persona (azul cian #00FFFF) en el centro
+    • Jaula: barras verticales rojo-cian con aura de energía
+    • Fondo transparente
+    Hitbox en el juego: 30 × 40 px centrado.
+
+ ── corazon.png  (20 × 20 px)
+    Ícono de vida en el HUD. Corazón rojo sólido (#CC1A1A)
+    con destellos blancos en el borde superior izquierdo.
+    Fondo transparente.
+
+ ── libro.png  (22 × 24 px)
+    Dossier/libro de pistas coleccionable.
+    • Tapa: azul medianoche oscuro (#0A1428) con borde delgado
+    • Sello rojo en la tapa (cuadrado o círculo #CC1A1A)
+    • Líneas horizontales simulando páginas (beige/blanco)
+    • Lomo visible en el lado izquierdo
+    Fondo transparente.
+
+ ── hito.png  (32 × 64 px)
+    Portal de checkpoint / bandera de meta.
+    • Poste vertical plateado (2-3 px de ancho, 60 px de alto)
+    • Bandera cuadrada dorada (#FFCC00) en la parte superior
+    • Símbolo dentro de la bandera: estrella o checkmark
+    • Aura de brillo dorado en los bordes
+    • Base circular de apoyo (4-6 px radio) en la parte inferior
+    Hitbox en el juego: 24 × 60 px centrado.
+
+ ── plataforma.png  (32 × 16 px)  [TILEABLE horizontalmente]
+    El juego extiende las plataformas repitiendo este tile en X.
+    • Superficie: acero oscuro (#1A3060) con banda dorada superior (2-3 px)
+    • Lado: tornillos o remaches en las esquinas
+    • Fondo: borde inferior oscuro (1 px #0D1B3E)
+    IMPORTANTE: Los bordes izquierdo y derecho deben coincidir
+    perfectamente para que el tile se repita sin costuras.
+
+ ── plataforma_mov.png  (32 × 14 px)  [TILEABLE horizontalmente]
+    Plataforma móvil con advertencia visual de movimiento.
+    • Similar a plataforma.png pero más delgada (14 px alto)
+    • Franja diagonal naranja/negro (#FF8800 y #111111)
+      tipo "cebra de advertencia" industrial
+    • Bordes con pequeñas flechas o indicadores de movimiento
+    IMPORTANTE: Mismo requisito de costuras que plataforma.png.
+
+ ── confeti_oro.png   (6 × 6 px)  Partícula cuadrada dorada #FFCC00
+ ── confeti_rosa.png  (6 × 6 px)  Partícula cuadrada rosa   #FF66AA
+ ── confeti_cyan.png  (6 × 6 px)  Partícula cuadrada cian   #00FFFF
+    Las tres son rectángulos/cuadrados simples con color sólido.
+    Fondo transparente. Se usan en la lluvia de confeti de FinScene.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ FONDOS / PARALLAX  (3 capas, formato TileSprite)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Los fondos se usan como TileSprites: se repiten automáticamente
+  mientras el jugador avanza por el mundo de 7000 px de ancho.
+  El alto SIEMPRE debe ser exactamente 700 px.
+
+ ── fondo1.png  (390 × 700 px)  –  CAPA 0: Cielo  [scrollX × 0.05]
+    La más lenta, casi quieta. Representa el fondo lejano.
+    • Degradado vertical: azul medianoche oscuro (#0D1B3E) arriba →
+      azul marino ligeramente más claro hacia abajo (#0F2040)
+    • ~30-40 estrellas blancas/amarillas dispersas aleatoriamente
+      (puntos de 1-2 px, algunas con pequeño glow blanco)
+    • Glow difuso rojo-naranja en la franja inferior (últimos 80-100 px)
+      simula la contaminación lumínica del campus
+    • Si se anima: Luna o satélite en la esquina superior
+    Nota: puede medir solo 390 px de ancho porque scrollea muy lento.
+
+ ── fondo2.png  (800 × 700 px)  –  CAPA 1: Edificios  [scrollX × 0.25]
+    Velocidad media. Siluetas de edificios universitarios en segundo plano.
+    • Siluetas de 5-8 edificios de diferentes alturas (250-500 px de alto)
+    • Color base de edificios: azul muy oscuro (#0A1020) casi negro
+    • Ventanas encendidas: puntos de luz dorada (#FFCC00) y rojiza (#CC2200)
+      distribuidos en cuadrícula (patrón de ventanas de oficina nocturna)
+    • Algunas ventanas con neón rojo brillante (acentos)
+    • El tejado/techo más alto no debe superar el 30% superior (y < 210 px)
+    • La franja inferior (últimos 200 px) puede ser negra/vacía ya que
+      queda tapada por fondo3
+    Nota: medir 800 px de ancho reduce la repetición visible.
+
+ ── fondo3.png  (600 × 700 px)  –  CAPA 2: Árboles y suelo  [scrollX × 0.5]
+    Velocidad media-rápida. Es la capa más cercana al jugador.
+    • Suelo/campus: franja inferior de ~32 px en gris-verde oscuro (#1A2A1A)
+    • Árboles estilizados: siluetas de 4-6 árboles campus (abetos o palmas)
+      en color #1A2A1A a #0D1B0D, alturas entre 150-350 px
+    • Los árboles no deben superar el 50% del alto (y > 350 px desde arriba)
+    • Calzada o camino peatonal en la franja baja (opcional)
+    • El extremo del tile (izq/der) deben coincidir para seamless tiling.
+    Nota: medir 600 px reduce el patrón visible al repetir.
+
+  REGLAS GENERALES DE FONDO:
+  ✓ Todos los fondos: alto = 700 px (sin negociación)
+  ✓ Paleta fría/nocturna (azul medianoche predomina)
+  ✓ Fondo1 y fondo2: NO necesitan bordes seamless (el scroll es tan lento
+    que el tiling apenas se nota)
+  ✓ fondo3: SÍ necesita borde seamless (scrollea al 50%)
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ NOTAS DE INTEGRACIÓN CON EL CÓDIGO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Archivo clave: src/scenes/BootScene.js
+
+  PARA IMÁGENES ESTÁTICAS (ejemplo: companero.png)
+  ─────────────────────────────────────────────────
+    En preload():
+      this.load.image('companero', 'assets/sprites/companero.png');
+
+    Luego BORRAR o comentar el método _crearTexturaCompanero() en create()
+
+  PARA SPRITESHEETS ANIMADOS (ejemplo: novo_walk.png)
+  ────────────────────────────────────────────────────
+    En preload():
+      this.load.spritesheet('novo_walk', 'assets/sprites/novo_walk.png',
+        { frameWidth: 32, frameHeight: 50 });
+
+    En Player.js, método _crearAnimaciones():
+      scene.anims.create({
+        key: 'novo-walk',
+        frames: scene.anims.generateFrameNumbers('novo_walk', { start: 0, end: 5 }),
+        frameRate: 10,
+        repeat: -1
+      });
+      scene.anims.create({
+        key: 'novo-idle',
+        frames: scene.anims.generateFrameNumbers('novo_idle', { start: 0, end: 3 }),
+        frameRate: 8,
+        repeat: -1
+      });
+      scene.anims.create({
+        key: 'novo-jump',
+        frames: scene.anims.generateFrameNumbers('novo_jump', { start: 0, end: 2 }),
+        frameRate: 6,
+        repeat: 0
+      });
+
+    En Player.js, método update() – reproducir según estado:
+      if (estaSaltando)       this.play('novo-jump', true);
+      else if (estaMoviendo)  this.play('novo-walk', true);
+      else                    this.play('novo-idle', true);
+
+      // Para dirección izquierda (ya implementado con flipX):
+      this.setFlipX(velocidadX < 0);
+
+  PARA ENEMIGO (enemigo_walk.png)  ←  DIMENSIONES CONFIRMADAS: 128×44 px
+  ─────────────────────────────────────────────────────────────────────
+    En BootScene.js preload() (YA IMPLEMENTADO):
+      this.load.spritesheet('enemigoWalk', 'assets/sprites/enemigo_walk.png',
+        { frameWidth: 32, frameHeight: 44 });   // 4 frames
+
+    Animación creada automáticamente en BootScene create():
+      key: 'enemigo_walk'  frameRate: 8  repeat: -1
+
+    Enemy.js usa key 'enemigoWalk' si existe; fallback a placeholder 'enemigo'.
+    ✅ INTEGRADO — no se necesita acción adicional.
+
+  CLAVE DE TEXTURAS USADAS EN EL CÓDIGO (NO CAMBIAR ESTOS NOMBRES)
+  ──────────────────────────────────────────────────────────────────
+    'jugador'      ← Player.js, constructor
+    'enemigo'      ← Enemy.js, constructor
+    'moneda'       ← GameScene.js, grupo coleccionables
+    'libro'        ← GameScene.js, grupo coleccionables
+    'plataforma'   ← GameScene.js, plataformas estáticas
+    'plataformaMov'← GameScene.js, plataformas móviles
+    'hito'         ← GameScene.js, checkpoints
+    'companero'    ← GameScene.js, compañeros capturados
+    'corazon'      ← GameScene.js, HUD vidas
+    'fondo1'       ← GameScene.js, parallax capa 0
+    'fondo2'       ← GameScene.js, parallax capa 1
+    'fondo3'       ← GameScene.js, parallax capa 2
+    'confeti_oro'  ← FinScene.js, partículas victoria
+    'confeti_rosa' ← FinScene.js, partículas victoria
+    'confeti_cyan' ← FinScene.js, partículas victoria
+    'profesor'     ← IntroScene/DialogoScene/FinScene (YA CARGADO)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ RESUMEN DE PRIORIDADES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ALTA  → novo_idle.png, novo_walk.png, novo_jump.png
+  ALTA  → enemigo_walk.png
+  ALTA  → fondo1.png, fondo2.png, fondo3.png
+  ALTA  → boss_fondo1.png, boss_fondo2.png          (BossScene - nuevos)
+  MEDIA → plataforma.png, plataforma_mov.png, hito.png
+  MEDIA → companero.png, libro.png, corazon.png
+  MEDIA → celebracion.png                           (FinScene - nuevo)
+  BAJA  → moneda.png (animada), confeti_oro/rosa/cyan.png
+  BAJA  → polux_walk.png (spritesheet boss animado) (BossScene - nuevo)
+
+  profesor_portrait.png → YA EXISTE (no recrear)
+
+══════════════════════════════════════════════════════════════════════════════
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ NUEVOS ASSETS — BOSS SCENE (BossScene.js + CutscenePreBoss.js)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  DESCRIPCIÓN DE LA ESCENA
+  ─────────────────────────
+  Arena de batalla final contra Pólux. Pantalla fija 390 × 700 px (portrait).
+  Sin scroll. El jugador salta sobre Pólux 3 veces para derrotarlo.
+  El boss camina izquierda-derecha entre x=45 y x=345.
+
+  boss_fondo1.png  →  390 × 700 px  (capa posterior, estática)
+  ─────────────────────────────────────────────────────────────
+  ESCENA: Sala de servidores de Pólux, vista completa.
+  ESTILO: Oscuro, amenazante, ciencia-ficción industrial.
+    • Racks metálicos de suelo a techo (5-6 columnas)
+    • Cables colgantes y tuberías de datos
+    • LEDs rojos y azules parpadeando en los racks
+    • Suelo metálico con rejillas y reflejos rojizos
+    • Neblina rojiza tenue flotando desde el piso
+  COLORES DOMINANTES:
+    • Fondo profundo:   #0D0008 (negro rojizo casi negro)
+    • Metal racks:      #1A0A0A (gris oscuro cálido)
+    • LEDs rojos:       #CC0022 / #FF2244
+    • LEDs azules:      #0044CC / #00AAFF
+    • Suelo:            #0A0005 con detalles #330011
+  NOTA: No pintar plataformas, solo el fondo visual.
+
+  boss_fondo2.png  →  390 × 700 px  (capa media, sobre fondo1)
+  ─────────────────────────────────────────────────────────────
+  ESCENA: Detalles de primer plano y overlays atmosféricos.
+  ESTILO: Más cercano al espectador que boss_fondo1.
+    • Columnas de servidor parciales a los costados izq/der
+    • Tuberías y conductos eléctricos en los bordes
+    • Efecto de calor/neblina roja desde abajo (degradado ascendente)
+    • Posibles cables que cuelgan desde arriba
+  RECOMENDACIÓN: Fondo transparente (PNG-32) en las zonas centrales
+    para que boss_fondo1 sea visible detrás.
+  Si prefieres opaco, usar tonos muy oscuros que armonicen con fondo1.
+  PUEDE OMITIRSE: el código tiene fallback si no existe este archivo.
+
+  polux_walk.png  →  256 × 82 px  (spritesheet horizontal, 4 frames)
+  ──────────────────────────────────────────────────────────────────
+  DATOS TÉCNICOS:
+    frameWidth:  64 px
+    frameHeight: 82 px
+    frames:      4  (de izquierda a derecha)
+    frameRate recomendado: 6 fps, loop
+    clave Phaser: 'poluxWalk'  (load.spritesheet)
+
+  DESCRIPCIÓN DE PÓLUX (coherente con textura estática 'polux' 64×82):
+    • Robot masivo, intimidante, torso rectangular ancho
+    • Color dominante: rojo oscuro (#660011) con detalles negro brillante
+    • Cabeza cuadrada con ojos LED rojos brillantes (2 óvalos)
+    • Símbolo 'P' en el pecho (o logo triangular)
+    • Brazos a los costados, puños grandes
+    • Zancada pesada y mecánica
+
+  FRAMES DE ANIMACIÓN (postura de caminata amenazante):
+    Frame 0 — posición neutra (de pie, peso centrado)
+    Frame 1 — zancada derecha adelante (pie derecho extendido)
+    Frame 2 — posición neutra (igual a frame 0 o ligera variación)
+    Frame 3 — zancada izquierda adelante (pie izquierdo extendido)
+
+  NOTA: Si no existe polux_walk.png, el código usa la textura estática
+    'polux' (generada por programa en BootScene) como fallback automático.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ NUEVOS ASSETS — FIN SCENE (FinScene.js)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  celebracion.png  →  390 × 300 px  (imagen de victoria)
+  ────────────────────────────────────────────────────────
+  DESCRIPCIÓN: Imagen de celebración tras vencer a Pólux.
+  Se muestra en FinScene encima del panel de puntuación.
+  ESTILO: Positivo, colorido, académico — contrasta con el tono oscuro del juego.
+    • Novo sin casco (cara visible, expresión de victoria/alegría)
+    • Compañeros liberados alrededor, celebrando
+    • Campus UDD de fondo iluminado (edificios, cielo azul o atardecer)
+    • Globos, confeti o destellos dorados opcionales
+  TAMAÑO EXACTO: 390 × 300 px (o 390 × 280 px también funciona).
+  NOTA: El código verifica si la imagen existe con textures.exists('celebracion').
+    Si no existe, el espacio queda en blanco sin error.
+
+══════════════════════════════════════════════════════════════════════════════

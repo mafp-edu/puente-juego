@@ -1,0 +1,18 @@
+Coloca aquí los archivos de audio cuando estén listos.
+
+Archivos esperados:
+- musica_juego.mp3     → Música de fondo del nivel principal
+- musica_fin.mp3       → Música de victoria en FinScene
+- sfx_salto.mp3        → Efecto de sonido al saltar
+- sfx_moneda.mp3       → Efecto al recoger moneda
+- sfx_enemigo.mp3      → Efecto al derrotar enemigo
+- sfx_hito.mp3         → Efecto al llegar a un hito
+- sfx_correcto.mp3     → Efecto de respuesta correcta
+- sfx_incorrecto.mp3   → Efecto de respuesta incorrecta
+- sfx_vida.mp3         → Efecto al perder una vida
+
+Para integrar audio, agrega en BootScene.js preload():
+  this.load.audio('musica_juego', 'assets/audio/musica_juego.mp3');
+  
+Y en GameScene.js create():
+  this.sound.play('musica_juego', { loop: true, volume: 0.4 });

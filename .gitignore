@@ -1,0 +1,10 @@
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# VS Code (opcional, puedes quitarlo si quieres compartir la config)
+.vscode/
+
+# Node (por si acaso en el futuro)
+node_modules/

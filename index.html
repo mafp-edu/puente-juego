@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>El Camino del Buen Líder</title>
+  <!-- Fuentes: Orbitron (títulos) + Rajdhani (texto) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      width: 100%;
+      height: 100%;
+    }
+    body {
+      background: linear-gradient(160deg, #0D1B3E 0%, #1A0A0A 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      min-height: 100dvh;   /* soporte iOS Safari */
+      overflow: hidden;
+      font-family: 'Rajdhani', 'Segoe UI', sans-serif;
+      touch-action: none;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    canvas {
+      touch-action: none !important;
+      display: block;
+      margin: 0 auto;
+      /* Escalar al ancho de la ventana en móvil */
+      max-width: 100vw;
+      max-height: 100dvh;
+    }
+    #game-container {
+      width: 100%;
+      max-width: 800px;
+      /* Centrar verticalmente en móvil */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    /* Formulario de registro: responsive para móvil */
+    #form-registro {
+      position: fixed !important;
+      top: 50% !important;
+      left: 50% !important;
+      transform: translate(-50%, -50%) !important;
+      width: min(320px, 88vw) !important;
+      max-height: 90dvh;
+      overflow-y: auto;
+      z-index: 100;
+    }
+  </style>
+</head>
+<body>
+  <div id="game-container"></div>
+
+  <!-- Phaser 3 vía CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.min.js"></script>
+
+  <!-- Módulos del juego (orden importa) -->
+  <script type="module">
+    import { GAME_CONFIG }      from './src/config.js';
+    import BootScene            from './src/scenes/BootScene.js';
+    import RegistroScene        from './src/scenes/RegistroScene.js';
+    import IntroScene           from './src/scenes/IntroScene.js';
+    import LeaderboardScene     from './src/scenes/LeaderboardScene.js';
+    import GameScene            from './src/scenes/GameScene.js';
+    import DialogoScene         from './src/scenes/DialogoScene.js';
+    import CutscenePreBoss      from './src/scenes/CutscenePreBoss.js';
+    import BossScene            from './src/scenes/BossScene.js';
+    import FinScene             from './src/scenes/FinScene.js';
+
+    // Configuración principal de Phaser
+    const config = {
+      ...GAME_CONFIG,
+      parent: 'game-container',
+      scene: [
+        BootScene,
+        RegistroScene,
+        IntroScene,
+        LeaderboardScene,
+        GameScene,
+        DialogoScene,
+        CutscenePreBoss,
+        BossScene,
+        FinScene
+      ]
+    };
+
+    // Iniciar el juego
+    window.game = new Phaser.Game(config);
+  </script>
+</body>
+</html>
