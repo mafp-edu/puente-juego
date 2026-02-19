@@ -170,7 +170,7 @@ export default class Coin extends Phaser.Physics.Arcade.Sprite {
 
     // ─ Texto del tema (encabezado pequeño) ─
     const txtTema = scene.add.text(W / 2, 56, `📖  ${tema}`, {
-      fontSize:   '11px',
+      fontSize:   '13px',
       fontFamily: 'Orbitron, Arial Black',
       color:      '#FFD700',
       align:      'center'
@@ -180,8 +180,8 @@ export default class Coin extends Phaser.Physics.Arcade.Sprite {
       .setDepth(202);
 
     // ─ Texto de la pista ─
-    const txtPista = scene.add.text(W / 2, 74, pista, {
-      fontSize:   '14px',
+    const txtPista = scene.add.text(W / 2, 76, pista, {
+      fontSize:   '17px',
       fontFamily: 'Rajdhani, Arial',
       color:      '#DDEEFF',
       align:      'center',

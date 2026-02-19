@@ -112,7 +112,7 @@ export default class FinScene extends Phaser.Scene {
       `Bienvenido a la Universidad del Desarrollo.`;
 
     this._txtMensaje = this.add.text(W / 2, msgY, '', {
-      fontSize:    '12px',
+      fontSize:    '14px',
       fontFamily:  'Rajdhani, Arial',
       color:       '#DDEEFF',
       wordWrap:    { width: panelW - msgPad * 2 },

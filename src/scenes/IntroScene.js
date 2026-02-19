@@ -74,14 +74,14 @@ export default class IntroScene extends Phaser.Scene {
     const textW = panelW - (portPad * 2 + portSize + 8);
 
     this._txtTitulo = this.add.text(textX, panelY + 22, '', {
-      fontSize:   '13px',
+      fontSize:   '15px',
       fontFamily: 'Orbitron, Arial Black',
       color:      '#FFD700',
       wordWrap:   { width: textW - 10 },
     });
 
     this._txtCuerpo = this.add.text(textX, panelY + 50, '', {
-      fontSize:   '14px',
+      fontSize:   '16px',
       fontFamily: 'Rajdhani, Arial',
       color:      '#DDEEFF',
       wordWrap:   { width: textW - 10 },

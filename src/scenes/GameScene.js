@@ -132,6 +132,13 @@ export default class GameScene extends Phaser.Scene {
       this._jugador.respuestaCorrecta(100);
       this._hitosCompletados++;
       this._actualizarHUD();
+      // Resetear flags táctiles para evitar botón atascado
+      if (this._jugador) {
+        this._jugador.touchIzq           = false;
+        this._jugador.touchDer           = false;
+        this._jugador.touchJumpActivo    = false;
+        this._jugador._touchJumpAnterior = false;
+      }
       this.scene.resume('GameScene');
       this._marcarHitoCompleto(hitoIdx);
 
@@ -145,6 +152,13 @@ export default class GameScene extends Phaser.Scene {
 
     this.events.on('dialogoIncorrecto', () => {
       // Vida ya fue descontada por dialogoVidaPerdida
+      // Resetear flags táctiles por si el diálogo se cierra sin retomar
+      if (this._jugador) {
+        this._jugador.touchIzq           = false;
+        this._jugador.touchDer           = false;
+        this._jugador.touchJumpActivo    = false;
+        this._jugador._touchJumpAnterior = false;
+      }
     });
 
     this.events.on('dialogoVidaPerdida', () => {
@@ -798,8 +812,7 @@ export default class GameScene extends Phaser.Scene {
   _onRecogerColeccionable(jugador, item) {
     if (!item.active) return;
     item.recoger(this, this.cameras.main);
-    this._coleccionables.remove(item, false, false); // no quitar de escena: la animación debe verse
-    // Actualizar contador según tipo de coleccionable
+    this._coleccionables.remove(item, false, false);
     if (item.tipo === 'moneda') {
       jugador.recogerMoneda(item.valor);
       this.sound.play('sfxMoneda', { volume: 0.6 });

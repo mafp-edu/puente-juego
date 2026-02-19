@@ -129,7 +129,7 @@ export const GAME_CONFIG = {
   },
   scale: {
     mode:             Phaser.Scale.FIT,
-    autoCenter:       Phaser.Scale.CENTER_BOTH,
+    autoCenter:       Phaser.Scale.CENTER_HORIZONTALLY,
     width:            390,
     height:           700
   }

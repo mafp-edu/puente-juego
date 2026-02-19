@@ -25,7 +25,8 @@
       background: linear-gradient(160deg, #0D1B3E 0%, #1A0A0A 100%);
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start;      /* canvas pegado arriba */
+      padding-top: env(safe-area-inset-top, 0px);  /* respeta notch iOS */
       min-height: 100vh;
       min-height: 100dvh;   /* soporte iOS Safari */
       overflow: hidden;
@@ -46,9 +47,8 @@
     #game-container {
       width: 100%;
       max-width: 800px;
-      /* Centrar verticalmente en móvil */
       display: flex;
-      align-items: center;
+      align-items: flex-start;   /* canvas pegado arriba, no centrado */
       justify-content: center;
     }
     /* Formulario de registro: responsive para móvil */

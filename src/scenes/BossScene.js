@@ -21,7 +21,7 @@ export default class BossScene extends Phaser.Scene {
 
   init(data) {
     this._stats          = data || {};
-    this._bossHP         = 3;
+    this._bossHP         = 4;
     this._bossInvencible = false;
     this._bossDir        = -1;   // empieza yendo a la izquierda
     this._bossVel        = 85;
@@ -214,20 +214,25 @@ export default class BossScene extends Phaser.Scene {
   // ── HUD ─────────────────────────────────────────────────────────────────────
 
   _crearHUD(W, H) {
-    // ─ Barra de HP del boss (parte superior) ─
+    // ─ Caja de HP del boss (parte superior) ─
     const bgHUD = this.add.graphics().setScrollFactor(0).setDepth(150);
-    bgHUD.fillStyle(0x000000, 0.72);
-    bgHUD.fillRoundedRect(W / 2 - 108, 46, 216, 28, 6);
+    bgHUD.fillStyle(0x000000, 0.78);
+    bgHUD.fillRoundedRect(W / 2 - 120, 46, 240, 44, 6);
     bgHUD.lineStyle(1, 0xFF2244, 0.7);
-    bgHUD.strokeRoundedRect(W / 2 - 108, 46, 216, 28, 6);
+    bgHUD.strokeRoundedRect(W / 2 - 120, 46, 240, 44, 6);
 
-    this._txtBossHP = this.add.text(W / 2, 60, 'PÓLUX  ❤❤❤', {
-      fontSize:   '14px',
+    // Nombre del boss
+    this.add.text(W / 2, 55, 'PÓLUX — JEFE FINAL', {
+      fontSize:   '11px',
       fontFamily: 'Orbitron, Arial Black',
       color:      '#FF4444',
       stroke:     '#000000',
-      strokeThickness: 3
+      strokeThickness: 2
     }).setOrigin(0.5).setScrollFactor(0).setDepth(151);
+
+    // Barra gráfica de HP (4 segmentos)
+    this._bossHPBarGfx = this.add.graphics().setScrollFactor(0).setDepth(151);
+    this._bossHPTotal  = this._bossHP; // guarda el máximo para el redibujado
 
     // ─ Vidas del jugador ─
     this._txtVidas = this.add.text(8, 48, '', {
@@ -240,16 +245,52 @@ export default class BossScene extends Phaser.Scene {
     this._actualizarHUD();
 
     // ─ Instrucción (parte inferior) ─
-    this.add.text(W / 2, H - 18, '¡Salta tres veces sobre Pólux para derrotarlo!', {
+    this.add.text(W / 2, H - 18, '¡Salta cuatro veces sobre Pólux para derrotarlo!', {
       fontSize:   '10px',
       fontFamily: 'Rajdhani, Arial',
       color:      '#888888'
     }).setOrigin(0.5).setScrollFactor(0).setDepth(150);
   }
 
+  /** Dibuja los 4 segmentos del HP bar del boss */
+  _dibujarBossHPBar(W) {
+    const g = this._bossHPBarGfx;
+    if (!g) return;
+    g.clear();
+
+    const total  = this._bossHPTotal || 4;
+    const segW   = 42;
+    const segH   = 13;
+    const gap    = 5;
+    const barW   = total * segW + (total - 1) * gap;
+    const startX = W / 2 - barW / 2;
+    const y      = 67;
+
+    for (let i = 0; i < total; i++) {
+      const active = i < this._bossHP;
+      const x = startX + i * (segW + gap);
+
+      // Ranura vacía
+      g.fillStyle(0x222222, 0.9);
+      g.fillRoundedRect(x, y, segW, segH, 3);
+
+      if (active) {
+        // Color según HP restante: amarillo→naranja→rojo
+        const color = this._bossHP >= 3 ? 0xFF3333
+                    : this._bossHP === 2  ? 0xFF7700
+                    : 0xFF0000;
+        g.fillStyle(color, 1);
+        g.fillRoundedRect(x + 1, y + 1, segW - 2, segH - 2, 2);
+        // Brillo superior
+        g.fillStyle(0xFFFFFF, 0.25);
+        g.fillRoundedRect(x + 3, y + 2, segW - 6, 4, 1);
+      }
+    }
+  }
+
   _actualizarHUD() {
-    if (this._txtVidas)  this._txtVidas.setText(`VIDAS: ${this._jugador.vidas}`);
-    if (this._txtBossHP) this._txtBossHP.setText('PÓLUX  ' + '❤'.repeat(Math.max(0, this._bossHP)));
+    if (this._txtVidas) this._txtVidas.setText(`VIDAS: ${this._jugador.vidas}`);
+    this._dibujarBossHPBar(this.scale.width);
   }
 
   // ── Controles táctiles (D-pad idéntico a GameScene) ─────────────────────────
@@ -350,7 +391,9 @@ export default class BossScene extends Phaser.Scene {
     }
 
     // Cambio de fase
-    if (this._bossHP === 2) {
+    if (this._bossHP === 3) {
+      this._mostrarMensajeBoss('¡¡ESTO NO PUEDE SER!!', '#FFAA00');
+    } else if (this._bossHP === 2) {
       this._boss.setTint(0xFF8800);
       this._bossVel = 135;
       this._mostrarMensajeBoss('¡¡IMPOSIBLE!!', '#FF8800');
