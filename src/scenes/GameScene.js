@@ -55,8 +55,6 @@ export default class GameScene extends Phaser.Scene {
     try {
       this._plataformasEstaticas = this.physics.add.staticGroup();
       console.log('[GameScene] staticGroup OK');
-      this._plataformasMoviles   = this.physics.add.group();
-      console.log('[GameScene] group OK');
       this._crearNivel(W, H);
       console.log('[GameScene] nivel OK');
     } catch (err) {
@@ -76,11 +74,9 @@ export default class GameScene extends Phaser.Scene {
 
     // ─ Colisiones jugador con plataformas ─
     this.physics.add.collider(this._jugador, this._plataformasEstaticas);
-    this.physics.add.collider(this._jugador, this._plataformasMoviles);
 
     // ─ Colisiones enemigos con plataformas ─
     this.physics.add.collider(this._enemigos, this._plataformasEstaticas);
-    this.physics.add.collider(this._enemigos, this._plataformasMoviles);
 
     // ─ Solape jugador con monedas/libros ─
     this.physics.add.overlap(
@@ -194,9 +190,6 @@ export default class GameScene extends Phaser.Scene {
     // Actualizar enemigos
     this._enemigos.getChildren().forEach(e => e.update && e.update());
 
-    // Actualizar plataformas móviles
-    this._actualizarPlataformasMoviles();
-
     // ─ Detectar caída al vacío ─
     if (this._jugador.y > MUNDO.alto + 50) {
       this._jugadorCayoAlVacio();
@@ -247,7 +240,6 @@ export default class GameScene extends Phaser.Scene {
     this._coleccionables = this.physics.add.group();
     this._companeros     = this.physics.add.staticGroup(); // staticGroup para companeros estáticos
     this._hitosGroup     = this.physics.add.staticGroup();
-    this._platsMovData   = [];
     console.log('[GameScene] _crearNivel: grupos OK');
 
     const suelo = H - 32;
@@ -318,22 +310,7 @@ export default class GameScene extends Phaser.Scene {
     this._addPlat(6870, suelo - 200,  80, 16);  // descenso hacia META
     console.log('[GameScene] _crearNivel: plataformas elevadas OK');
 
-    // ─── PLATAFORMAS MÓVILES ─────────────────────────────────────────────────
-    this._addPlatMov(1250, suelo - 100, 96, 14, 'v', 50, 1.2);
-    this._addPlatMov(1700, suelo - 150, 96, 14, 'h', 80, 0.8);
-    this._addPlatMov(2450, suelo - 100, 80, 14, 'v', 60, 1.0);
-    this._addPlatMov(2760, suelo - 80,  80, 14, 'h', 60, 1.4);
-    this._addPlatMov(3540, suelo - 100, 80, 14, 'h', 70, 1.0);
-    this._addPlatMov(3880, suelo - 150, 80, 14, 'v', 60, 1.2);
-    this._addPlatMov(4390, suelo - 120, 80, 14, 'h', 80, 0.9);
-    this._addPlatMov(4770, suelo - 100, 80, 14, 'v', 55, 1.3);
-    this._addPlatMov(5180, suelo - 120, 80, 14, 'h', 75, 1.1);
-    this._addPlatMov(5450, suelo - 160, 80, 14, 'v', 65, 1.4);
-    this._addPlatMov(5850, suelo - 100, 80, 14, 'h', 70, 1.2);
-    this._addPlatMov(6100, suelo - 150, 80, 14, 'v', 60, 1.0);
-    this._addPlatMov(6500, suelo - 120, 80, 14, 'h', 80, 1.3);
-    this._addPlatMov(6750, suelo - 100, 80, 14, 'v', 50, 1.1);
-    console.log('[GameScene] _crearNivel: plataformas moviles OK');
+
 
     // ─── ENEMIGOS ────────────────────────────────────────────────────────────
     const posEnemigos = [
@@ -373,21 +350,16 @@ export default class GameScene extends Phaser.Scene {
       this._enemigos.add(e);
     });
 
-    // ─── ENEMIGOS EN PLATAFORMAS ELEVADAS ────────────────────────────────────
-    // Y = plataforma_Y - 22  (para que queden parados sobre el borde superior)
+    // ─── ENEMIGOS EN PLATAFORMAS (solo tercio final, x > 4700) ───────────────
+    // Y = cima_plataforma - 22 para que la gravedad los pose exactamente encima.
+    // Rango acotado al ancho de la plataforma para que no caigan.
     const enemigosEnPlataformas = [
-      [428,  suelo - 162, 30],   // plat 380 @ suelo-140  (w=96)
-      [614,  suelo - 222, 40],   // plat 550 @ suelo-200  (w=128)
-      [1020, suelo - 242, 55],   // plat 940 @ suelo-220  (w=160)
-      [1824, suelo - 202, 40],   // plat 1750 @ suelo-180 (w=128)
-      [2280, suelo - 182, 55],   // plat 2200 @ suelo-160 (w=160)
-      [3196, suelo - 182, 70],   // plat 3100 @ suelo-160 (w=192)
-      [3428, suelo - 122, 90],   // plat 3300 @ suelo-100 (w=256)
-      [4384, suelo - 162, 40],   // plat 4320 @ suelo-140 (w=128)
-      [5364, suelo - 242, 40],   // plat 5300 @ suelo-220 (w=128)
-      [5580, suelo - 172, 55],   // plat 5500 @ suelo-150 (w=160)
-      [6264, suelo - 222, 40],   // plat 6200 @ suelo-200 (w=128)
-      [6880, suelo - 162, 55],   // plat 6800 @ suelo-140 (w=160)
+      [4934, suelo - 122, 40],   // plat x=4870 suelo-100  w=128
+      [5624, suelo - 142, 40],   // plat x=5560 suelo-120  w=128
+      [6000, suelo - 222, 25],   // plat x=5960 suelo-200  w=80
+      [6112, suelo - 142, 18],   // plat x=6080 suelo-120  w=64
+      [6460, suelo - 222, 25],   // plat x=6420 suelo-200  w=80
+      [6578, suelo - 152, 30],   // plat x=6530 suelo-130  w=96
     ];
     enemigosEnPlataformas.forEach(([x, y, rango]) => {
       const e = new Enemy(this, x, y, rango);
@@ -527,36 +499,7 @@ export default class GameScene extends Phaser.Scene {
     }
   }
 
-  /**
-   * Agrega una plataforma móvil (un solo sprite).
-   * @param {string} eje  – 'h' = horizontal | 'v' = vertical
-   */
-  _addPlatMov(x, y, w, h, eje, rango, velocidad) {
-    const cx = x + w / 2;
-    const cy = y + h / 2;
-    const sp = this.physics.add.image(cx, cy, 'plataformaMov');
-    sp.setDisplaySize(w, h);
-    sp.body.setAllowGravity(false);
-    sp.body.setImmovable(true);
-    this._plataformasMoviles.add(sp);
-    this._platsMovData.push({ sp, origX: cx, origY: cy, eje, rango, velocidad, dir: 1, pos: 0 });
-  }
 
-  _actualizarPlataformasMoviles() {
-    this._platsMovData.forEach(d => {
-      d.pos += d.velocidad * d.dir * (1 / 60);
-      if (Math.abs(d.pos) >= d.rango) d.dir *= -1;
-
-      if (d.eje === 'h') {
-        d.sp.x = d.origX + d.pos;
-        d.sp.y = d.origY;
-      } else {
-        d.sp.x = d.origX;
-        d.sp.y = d.origY + d.pos;
-      }
-      d.sp.body.reset(d.sp.x, d.sp.y);
-    });
-  }
 
   // ── D-pad virtual (controles móvil) ──────────────────────────────────────────
 
