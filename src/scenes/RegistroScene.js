@@ -7,6 +7,7 @@
  */
 
 import { COLORES } from '../config.js';
+import { guardarPuntaje } from '../firebase.js';
 
 export default class RegistroScene extends Phaser.Scene {
   constructor() {
@@ -233,6 +234,19 @@ export default class RegistroScene extends Phaser.Scene {
       // Guardar en localStorage
       const jugador = { nombre, apellido, celular, nombreCompleto: `${nombre} ${apellido}` };
       localStorage.setItem('jugadorActual', JSON.stringify(jugador));
+
+      // Guardar en Firebase inmediatamente al registrarse (puntaje inicial 0)
+      guardarPuntaje({
+        nombre, apellido, celular,
+        puntaje:   0,
+        preguntas: 0,
+        enemigos:  0,
+        monedas:   0,
+        tiempo:    0
+      }).then(ok => {
+        if (ok) console.log('✅ Jugador registrado en Firebase:', nombre, apellido);
+        else    console.warn('⚠ Firebase falló al registrar jugador. Solo guardado en localStorage.');
+      });
 
       // Eliminar formulario y avanzar
       this._destruirFormulario();
