@@ -22,7 +22,7 @@ const HISTORIA = [
   },
   {
     titulo: '¡Tu misión, Novo!',
-    texto: 'Rescata al menos 5 compañeros capturados en el campus. Responde correctamente 2 de las 3 preguntas de los hitos (en cualquier orden). Solo así podrás enfrentar a Pólux. Recuerda: por cada 3 compañeros que salves, ¡recuperas una vida!',
+    texto: 'Rescata al menos 5 compañeros capturados en el campus. Responde correctamente 2 de las 3 preguntas de los hitos (en cualquier orden). Solo así podrás enfrentar a Pólux. Recuerda: por cada 5 compañeros que salves, ¡recuperas una vida!',
   },
   {
     titulo: 'Consejos de campo',
@@ -47,10 +47,21 @@ export default class IntroScene extends Phaser.Scene {
     bg.fillGradientStyle(0x0A0A25, 0x0A0A25, 0x001A44, 0x001A44, 1);
     bg.fillRect(0, 0, W, H);
 
-    // ── Panel central ────────────────────────────────────────────────────────
+    // ── Banner ilustrado (cambia con cada slide) ───────────────────────────
+    const BANNER_H = 160;
+    this._bannerImg = this.textures.exists('intro1')
+      ? this.add.image(W / 2, BANNER_H / 2, 'intro1')
+          .setDisplaySize(W, BANNER_H).setDepth(1)
+      : null;
+    // Degradado de fusión banner → fondo
+    this.add.graphics().setDepth(2)
+      .fillGradientStyle(0x0A0A25, 0x0A0A25, 0x0A0A25, 0x0A0A25, 0, 0, 0.88, 0.88)
+      .fillRect(0, BANNER_H - 36, W, 36);
+
+    // ── Panel central ─────────────────────────────────────────────────────────────────
     const panelW = Math.min(680, W - 10), panelH = 310;
     const panelX = W / 2 - panelW / 2;
-    const panelY = H / 2 - panelH / 2 - 10;
+    const panelY = BANNER_H + 8;
 
     this._panelGfx = this.add.graphics();
     this._dibujarPanel(panelX, panelY, panelW, panelH);
@@ -141,6 +152,22 @@ export default class IntroScene extends Phaser.Scene {
 
   _mostrarSlide(idx) {
     const slide = HISTORIA[idx];
+
+    // ─ Transición del banner ─
+    if (this._bannerImg) {
+      const key = `intro${idx + 1}`;
+      if (this.textures.exists(key)) {
+        this.tweens.add({
+          targets:  this._bannerImg,
+          alpha:    0,
+          duration: 160,
+          onComplete: () => {
+            this._bannerImg.setTexture(key);
+            this.tweens.add({ targets: this._bannerImg, alpha: 1, duration: 220 });
+          }
+        });
+      }
+    }
 
     // Fade out rápido → actualizar texto → fade in
     this.tweens.add({

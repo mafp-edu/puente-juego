@@ -89,6 +89,11 @@ export default class BootScene extends Phaser.Scene {
 
     // ─ Imagen de celebración (FinScene) ─ opcional con fallback ─
     this.load.image('celebracion', 'assets/sprites/celebracion.png');
+    this.load.image('intro1', 'assets/sprites/inicio1.png');
+    this.load.image('intro2', 'assets/sprites/inicio2.png');
+    this.load.image('intro3', 'assets/sprites/inicio3.png');
+    this.load.image('intro4', 'assets/sprites/inicio4.png');
+    this.load.image('intro5', 'assets/sprites/inicio5.png');
 
     // ─ Sprites reales de personajes y decorados ─
     this.load.image('plataforma',  'assets/sprites/plataforma.png');   // 32×16 — reemplaza placeholder
