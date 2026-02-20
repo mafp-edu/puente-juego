@@ -262,19 +262,15 @@ export default class GameScene extends Phaser.Scene {
 
     // ─── PLATAFORMAS ELEVADAS ────────────────────────────────────────────────
     this._addPlat(200,  suelo - 80,  96, 16);
-    this._addPlat(380,  suelo - 140, 96, 16);
     this._addPlat(550,  suelo - 200, 128, 16);
     this._addPlat(700,  suelo - 100, 96, 16);
     this._addPlat(820,  suelo - 160, 128, 16);
-    this._addPlat(940,  suelo - 220, 160, 16);
     this._addPlat(1300, suelo - 120, 96,  16);
     this._addPlat(1450, suelo - 190, 128, 16);
     this._addPlat(1600, suelo - 260, 96,  16);
     this._addPlat(1750, suelo - 180, 128, 16);
     this._addPlat(1900, suelo - 130, 128, 16);
-    this._addPlat(2050, suelo - 200, 96,  16);
     this._addPlat(2200, suelo - 160, 160, 16);
-    this._addPlat(2400, suelo - 100, 64,  16);
     this._addPlat(2520, suelo - 170, 64,  16);
     this._addPlat(2640, suelo - 240, 64,  16);
     this._addPlat(2850, suelo - 120, 128, 16);
@@ -283,11 +279,9 @@ export default class GameScene extends Phaser.Scene {
     this._addPlat(3300, suelo - 100, 256, 16);
     // Zona 3600-5000
     this._addPlat(3620, suelo - 130, 128, 16);
-    this._addPlat(3800, suelo - 200,  96, 16);
     this._addPlat(3960, suelo - 140, 160, 16);
     this._addPlat(4160, suelo - 210,  96, 16);
     this._addPlat(4320, suelo - 140, 128, 16);
-    this._addPlat(4500, suelo - 200, 128, 16);
     this._addPlat(4680, suelo - 150, 160, 16);
     this._addPlat(4870, suelo - 100, 128, 16);
     // Zona 5000-7000 — plataformas distribuidas asimétricamente para evitar "ruta del techo".
@@ -298,15 +292,12 @@ export default class GameScene extends Phaser.Scene {
     this._addPlat(5430, suelo - 170,  64, 16);  // baja
     this._addPlat(5560, suelo - 120, 128, 16);  // ancha media
     this._addPlat(5740, suelo - 230,  64, 16);  // salta arriba
-    this._addPlat(5860, suelo - 300,  64, 16);  // muy alta (trampolín)
     this._addPlat(5960, suelo - 200,  80, 16);  // baja desde cumbre
     this._addPlat(6080, suelo - 120,  64, 16);  // aterrizaje
     this._addPlat(6200, suelo - 200,  64, 16);  // sube de nuevo
-    this._addPlat(6310, suelo - 290,  64, 16);  // otra cumbre
     this._addPlat(6420, suelo - 200,  80, 16);  // baja
     this._addPlat(6530, suelo - 130,  96, 16);  // ancha para respiro
     this._addPlat(6660, suelo - 220,  64, 16);  // sube escalonado
-    this._addPlat(6760, suelo - 310,  64, 16);  // muy alta final
     this._addPlat(6870, suelo - 200,  80, 16);  // descenso hacia META
     console.log('[GameScene] _crearNivel: plataformas elevadas OK');
 
@@ -772,11 +763,11 @@ export default class GameScene extends Phaser.Scene {
     companero.liberado = true;
     this._companerosSalvados++;
 
-    // ─ Por cada 3 compañeros → recuperar 1 vida ─
-    if (this._companerosSalvados % 3 === 0) {
+    // ─ Por cada 5 compañeros → recuperar 1 vida ─
+    if (this._companerosSalvados % 5 === 0) {
       const ganada = jugador.ganarVida();
       if (ganada) {
-        this._mostrarBanner('💚 ¡+1 vida! (3 compañeros rescatados)', '#00FF88');
+        this._mostrarBanner('💚 ¡+1 vida! (5 compañeros rescatados)', '#00FF88');
       }
       this._actualizarHUD();
     }

@@ -391,15 +391,16 @@ export default class BossScene extends Phaser.Scene {
     }
 
     // Cambio de fase
+    // Doblar velocidad en cada golpe recibido: 85 → 170 → 340 → 680
+    this._bossVel *= 2;
+
     if (this._bossHP === 3) {
       this._mostrarMensajeBoss('¡¡ESTO NO PUEDE SER!!', '#FFAA00');
     } else if (this._bossHP === 2) {
       this._boss.setTint(0xFF8800);
-      this._bossVel = 135;
       this._mostrarMensajeBoss('¡¡IMPOSIBLE!!', '#FF8800');
     } else if (this._bossHP === 1) {
       this._boss.setTint(0xFF0000);
-      this._bossVel = 185;
       this._mostrarMensajeBoss('¡¡ACABARÉ CONTIGO!!', '#FF4444');
     }
 
