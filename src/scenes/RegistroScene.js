@@ -118,7 +118,39 @@ export default class RegistroScene extends Phaser.Scene {
       inp.type        = type;
       inp.id          = id;
       inp.placeholder = placeholder;
-      if (id === 'inp-celular') inp.inputMode = 'numeric';
+      if (id === 'inp-celular') {
+        inp.inputMode = 'numeric';
+        inp.maxLength = 11;
+        inp.value     = '569';
+
+        // Impedir que el cursor quede antes del prefijo
+        const protegerPrefijo = () => {
+          if (inp.selectionStart < 3) {
+            inp.setSelectionRange(3, Math.max(3, inp.selectionEnd));
+          }
+        };
+
+        // Evitar borrar el "569"
+        inp.addEventListener('keydown', (e) => {
+          protegerPrefijo();
+          const enPrefijo = inp.selectionStart <= 3;
+          if ((e.key === 'Backspace' || e.key === 'Delete') && enPrefijo) {
+            e.preventDefault();
+          }
+        });
+
+        // Forzar solo dígitos después del prefijo y restaurar prefijo si fue eliminado
+        inp.addEventListener('input', () => {
+          let val = inp.value.replace(/\D/g, '');
+          if (!val.startsWith('569')) val = '569' + val.replace(/^5?6?9?/, '');
+          if (val.length > 11) val = val.slice(0, 11);
+          inp.value = val;
+        });
+
+        inp.addEventListener('click',   protegerPrefijo);
+        inp.addEventListener('keyup',   protegerPrefijo);
+        inp.addEventListener('select',  protegerPrefijo);
+      }
       Object.assign(inp.style, {
         padding:      '12px 14px',
         fontSize:     '16px',  // ≥16px evita zoom automático en iOS
@@ -141,7 +173,7 @@ export default class RegistroScene extends Phaser.Scene {
 
     form.appendChild(crearCampo('inp-nombre',   'Nombre',   'text', 'Ingresa tu nombre'));
     form.appendChild(crearCampo('inp-apellido',  'Apellido', 'text', 'Ingresa tu apellido'));
-    form.appendChild(crearCampo('inp-celular',   'Celular',  'tel',  'Ej: 987654321'));
+    form.appendChild(crearCampo('inp-celular',   'Celular',  'tel',  '569XXXXXXXX'));
 
     // ─ Mensaje de error ─
     const error = document.createElement('p');
@@ -189,12 +221,12 @@ export default class RegistroScene extends Phaser.Scene {
         error.textContent = '⚠ Por favor ingresa tu apellido.';
         return;
       }
-      if (!celular) {
+      if (!celular || celular === '569') {
         error.textContent = '⚠ Por favor ingresa tu celular.';
         return;
       }
-      if (!/^\d{7,15}$/.test(celular.replace(/[\s\-+]/g, ''))) {
-        error.textContent = '⚠ Celular inválido. Solo números (7-15 dígitos).';
+      if (!/^569\d{8}$/.test(celular)) {
+        error.textContent = '⚠ Celular inválido. Debe tener 11 dígitos (569 + 8 números).';
         return;
       }
 
