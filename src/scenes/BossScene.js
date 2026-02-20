@@ -9,8 +9,9 @@
  *           contacto lateral = pierde vida. Sin vidas = Game Over → Leaderboard.
  */
 
-import { MUNDO } from '../config.js';
-import Player    from '../objects/Player.js';
+import { MUNDO }          from '../config.js';
+import Player             from '../objects/Player.js';
+import { guardarPuntaje } from '../firebase.js';
 
 export default class BossScene extends Phaser.Scene {
   constructor() {
@@ -111,10 +112,12 @@ export default class BossScene extends Phaser.Scene {
       if (this._boss.x > this._bossArenaMax) {
         this._bossDir = -1;
         this._boss.setFlipX(true);
+        this._boss.setX(this._bossArenaMax);  // evitar que salga de pantalla
       }
       if (this._boss.x < this._bossArenaMin) {
         this._bossDir = 1;
         this._boss.setFlipX(false);
+        this._boss.setX(this._bossArenaMin);  // evitar que salga de pantalla
       }
     }
 
@@ -542,13 +545,29 @@ export default class BossScene extends Phaser.Scene {
     });
   }
 
-  /** Guarda el puntaje en el leaderboard local */
+  /** Guarda el puntaje en Firebase y en localStorage */
   _guardarPuntaje(puntaje) {
     try {
-      const raw    = localStorage.getItem('jugadorActual');
+      const raw = localStorage.getItem('jugadorActual');
       if (!raw) return;
       const jugador = JSON.parse(raw);
-      const lb      = JSON.parse(localStorage.getItem('leaderboard') || '[]');
+
+      // Firebase (fire-and-forget)
+      guardarPuntaje({
+        nombre:    jugador.nombre,
+        apellido:  jugador.apellido,
+        celular:   jugador.celular || '',
+        puntaje,
+        preguntas: this._stats?.preguntasCorrectas || 0,
+        enemigos:  this._stats?.enemigosDerrotados || 0,
+        monedas:   this._stats?.monedas || 0,
+        tiempo:    this._stats?.tiempoSegundos || 0
+      }).then(ok => {
+        if (ok) console.log('\u2705 Puntaje boss guardado en Firebase:', puntaje);
+        else    console.warn('\u26a0 Firebase fall\u00f3 en BossScene. Respaldo en localStorage.');
+      });
+
+      const lb = JSON.parse(localStorage.getItem('leaderboard') || '[]');
 
       const entrada = {
         nombreCompleto: jugador.nombreCompleto,

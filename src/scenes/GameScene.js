@@ -947,7 +947,8 @@ export default class GameScene extends Phaser.Scene {
         });
       });
     } else {
-      // Game Over → mostrar mensaje y volver a Leaderboard
+      // Game Over → guardar puntaje en Firebase y volver a Leaderboard
+      this._guardarPuntaje(puntajeFinal);
       this._mostrarGameOver();
       this.time.delayedCall(2500, () => {
         this.scene.stop('DialogoScene');
@@ -979,13 +980,28 @@ export default class GameScene extends Phaser.Scene {
     }).setOrigin(0.5).setScrollFactor(0).setDepth(201);
   }
 
-  /** Guarda el puntaje en localStorage, manteniendo TOP 5 */
+  /** Guarda el puntaje en Firebase y en localStorage como respaldo */
   _guardarPuntaje(puntaje) {
     try {
       const jugadorRaw = localStorage.getItem('jugadorActual');
       if (!jugadorRaw) return;
-
       const jugador = JSON.parse(jugadorRaw);
+
+      // Firebase (fire-and-forget)
+      guardarPuntaje({
+        nombre:    jugador.nombre,
+        apellido:  jugador.apellido,
+        celular:   jugador.celular || '',
+        puntaje,
+        preguntas: this._preguntasCorrectas || 0,
+        enemigos:  this._jugador?.enemigosDerrotados || 0,
+        monedas:   this._jugador?.monedas || 0,
+        tiempo:    this._tiempoSegundos || 0
+      }).then(ok => {
+        if (ok) console.log('\u2705 Puntaje game over guardado en Firebase:', puntaje);
+        else    console.warn('\u26a0 Firebase fall\u00f3. Respaldo en localStorage.');
+      });
+
       const entrada = {
         nombreCompleto: jugador.nombreCompleto,
         nombre:         jugador.nombre,
