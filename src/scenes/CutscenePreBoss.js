@@ -105,7 +105,7 @@ export default class CutscenePreBoss extends Phaser.Scene {
       `¡${nombre}! Has debilitado las defensas de Pólux ` +
       `y liberado a nuestros compañeros del campus.\n\n` +
       `Pero la IA está furiosa. Viene en persona a destruirte.\n\n` +
-      `Esta es la batalla final. Salta tres veces sobre Pólux para derrotarlo.\n\n` +
+      `Esta es la batalla final. Salta cuatro veces sobre Pólux para derrotarlo.\n\n` +
       `¡El futuro de la universidad depende de ti!`;
 
     this._txtCuerpo = this.add.text(txtX, panelY + 50, '', {
