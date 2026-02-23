@@ -400,8 +400,11 @@ export default class BossScene extends Phaser.Scene {
     }
 
     // Cambio de fase
-    // Doblar velocidad en cada golpe recibido: 85 → 170 → 340 → 680
-    this._bossVel *= 2;
+    // Doblar velocidad en golpes 1 y 2 (HP 4→3 y HP 3→2): 85 → 170 → 340
+    // Al tercer golpe (HP 2→1) la velocidad se congela en 340
+    if (this._bossHP >= 2) {
+      this._bossVel *= 2;
+    }
 
     if (this._bossHP === 3) {
       this._mostrarMensajeBoss('¡¡ESTO NO PUEDE SER!!', '#FFAA00');
