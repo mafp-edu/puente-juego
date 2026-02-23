@@ -107,17 +107,21 @@ export default class BossScene extends Phaser.Scene {
     this._jugador.update();
 
     // ─ Boss AI ─
-    if (this._boss?.active && !this._bossInvencible) {
-      this._boss.setVelocityX(this._bossVel * this._bossDir);
-      if (this._boss.x > this._bossArenaMax) {
+    if (this._boss?.active) {
+      // Chequeo de límites: siempre activo (incluso durante invencibilidad)
+      if (this._boss.x >= this._bossArenaMax) {
         this._bossDir = -1;
         this._boss.setFlipX(true);
-        this._boss.setX(this._bossArenaMax);  // evitar que salga de pantalla
-      }
-      if (this._boss.x < this._bossArenaMin) {
+        this._boss.setX(this._bossArenaMax);
+      } else if (this._boss.x <= this._bossArenaMin) {
         this._bossDir = 1;
         this._boss.setFlipX(false);
-        this._boss.setX(this._bossArenaMin);  // evitar que salga de pantalla
+        this._boss.setX(this._bossArenaMin);
+      }
+
+      // Aplicar velocidad solo cuando no está en modo invencible
+      if (!this._bossInvencible) {
+        this._boss.setVelocityX(this._bossVel * this._bossDir);
       }
     }
 
@@ -181,6 +185,7 @@ export default class BossScene extends Phaser.Scene {
     this._boss.setDisplaySize(64, 82);
     this._boss.body.setSize(56, 72).setOffset(4, 5);
     this._boss.body.setGravityY(400);
+    this._boss.setCollideWorldBounds(true);  // nunca sale del mundo
 
     // Arrancar animación de caminata si el spritesheet fue cargado
     if (texKey === 'poluxWalk' && this.anims.exists('polux_walk')) {
@@ -379,6 +384,7 @@ export default class BossScene extends Phaser.Scene {
   _golpearBoss() {
     this._bossHP--;
     this._bossInvencible = true;
+    this._boss.setVelocityX(0);  // detener mientras está invencible
 
     // Flash rojo en el boss
     this._boss.setTint(0xFFFFFF);
